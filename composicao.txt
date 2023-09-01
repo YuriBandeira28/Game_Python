@@ -1,4 +1,6 @@
-Desenvolver um jogo de labirinto em Python utilizando a biblioteca Pygame e OpenGL. O jogo deve incluir elementos como jogador, inimigos (ao menos 3), chave e destino. Poste o arquivo resultante junto com os arquivos necessários em um arquivo compactado no SIGAA.
+Desenvolver um jogo de labirinto em Python utilizando a biblioteca Pygame e OpenGL. 
+O jogo deve incluir elementos como jogador, inimigos (ao menos 3), chave e destino. 
+Poste o arquivo resultante junto com os arquivos necessários em um arquivo compactado no SIGAA.
 
 Requisitos:
 

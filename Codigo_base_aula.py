@@ -74,7 +74,7 @@ def desenha_texto(x, y, texto):
     glColor3f(1, 1, 1)  # Cor do texto
     glRasterPos2f(x, y)
     for char in texto:
-        glutBitmapCharacter("Arial", ord(char))
+        #glutBitmapCharacter("Arial", ord(char))
         pass
         
 

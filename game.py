@@ -92,24 +92,25 @@ class Player():
             exit()
 
     def move(self , keys, labirinto):
-        
+        vel_move = 0.03
         if keys[K_LEFT]:
-            self.dx = -0.03
+            self.dx = -vel_move
 
         if keys[K_RIGHT]:
-            self.dx = 0.03
+            self.dx = vel_move
             
         if keys[K_UP]:
-            self.dy = -0.03
+            self.dy = -vel_move
             
         if keys[K_DOWN]:
-            self.dy = 0.03
+            self.dy = vel_move
 
         if not self.colisao(self.x + self.dx, self.y, self.tamanho, labirinto):
             self.x += self.dx
         if not self.colisao(self.x, self.y + self.dy, self.tamanho, labirinto):
             self.y += self.dy
-    
+            
+
 class Inimigo():
 
     dx = 0
@@ -140,17 +141,17 @@ class Inimigo():
     def move(self , player_x, player_y,labirinto):
 
         #pesquisar sistema de movimentação automática
-
+        vel_move = 0.02
         #provisório
         if player_x > self.x:
-            self.dx = 0.01
+            self.dx = vel_move
         if player_x < self.x:
-            self.dx = -0.01
+            self.dx = -vel_move
 
         if player_y > self.y:
-            self.dy = 0.01
+            self.dy = vel_move
         if player_y < self.y:
-            self.dy = -0.01
+            self.dy = -vel_move
         #self.dx += random.uniform(-0.01, 0.01)
         #self.dy += random.uniform(-0.01, 0.01)
         
