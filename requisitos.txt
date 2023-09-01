@@ -1,0 +1,50 @@
+Desenvolver um jogo de labirinto em Python utilizando a biblioteca Pygame e OpenGL. O jogo deve incluir elementos como jogador, inimigos (ao menos 3), chave e destino. Poste o arquivo resultante junto com os arquivos necessários em um arquivo compactado no SIGAA.
+
+Requisitos:
+
+Geração de Labirinto: (FEITO)
+
+Utilize um algoritmo para gerar um labirinto de dimensões n x n, onde n é um número ímpar. 
+O labirinto deve ser representado por uma matriz, onde 1 representa uma parede e 0 um caminho.
+
+
+Personagem Jogador: (FEITO)
+Crie um quadrado colorido que represente o jogador. O jogador deve ser capaz 
+de se mover para cima, para baixo, para a esquerda e para a direita usando as teclas do teclado.
+
+
+Inimigos:
+Adicione ao menos três inimigos representados por quadrados coloridos que se movem aleatoriamente 
+pelo labirinto. Se o jogador colidir com um inimigo, o jogo deve ser reiniciado.
+
+
+Chave e Destino: 
+Coloque uma chave e um destino no labirinto. O jogador deve pegar a chave antes de chegar ao 
+destino para vencer o jogo. O destino deve mudar de cor quando o jogador pegar a chave. 
+Antes de pegar a chave, se o jogador passar pelo destino, nada acontece. 
+Após pegar a chave, se o jogador chegar ao destino, o jogo deve aguardar alguns segundos e então 
+reiniciar com um novo labirinto.
+
+
+Detecção de Colisão:
+Implemente a detecção de colisão para evitar que o jogador e os inimigos atravessem as paredes. 
+Também dever ser previsto que a posição do jogador e dos inimigos a cada novo labirinto seja 
+em um local válido.
+
+
+Interface Gráfica: 
+Utilize a biblioteca Pygame para a interface gráfica (janela), interação com o usuário (teclado)
+e sons (pesquise como adicionar sons com PyGame),
+e a OpenGL para o desenho dos elementos e modelo de visualização (gluOrtho2D).
+
+
+Adicionais:
+Adicione diferentes sons para quando o jogador pegar a chave,
+for pego por algum inimigo ou chegar ao destino. Utilize o mixer do PyGame para isso (pygame.mixer).
+
+Implemente um contador de fases, o qual deve ser incrementado a 
+cada vez que o jogador completar um labirinto 
+(exiba as informações com OpenGL - veja a função desenha texto no código da aula).
+
+Implemente um contador de vidas, o qual deve ser decrementado a cada vez que o
+jogador for pego por um inimigo.
