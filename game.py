@@ -8,6 +8,8 @@ from pygame.locals import *
 import time
 
 
+
+
 class Labirinto():
     
     def __init__(self, largura, altura):
@@ -55,13 +57,15 @@ class Labirinto():
                     glVertex2f(j + 1, i + 1)
                     glVertex2f(j, i + 1)
                     glEnd()
-                    degrade -= 0.0005
+                    degrade -= 0.0007
                     
 class Player():
 
-    vidas = 3
+   
     dx, dy = 0, 0
-    def __init__(self, x, y, tamanho):
+    
+    def __init__(self, x, y, tamanho, vidas):
+        self.vidas = vidas
         self.x = x
         self.y = y
         self.tamanho = tamanho
@@ -80,16 +84,20 @@ class Player():
             for j in range(int(x), int(x + tamanho + 1)):
                 if labirinto[i][j] == 1:
                     return True
-        return False
+                
 
-    def colide_inimigo(self, x_inimigo, y_inimigo, inimigo_dx, inimigo_dy):
-        if self.x + self.dx == x_inimigo + inimigo_dx and self.y + self.dy == y_inimigo + inimigo_dy:
-            self.vidas -=1
-
+    def colide_inimigo(self, x_inimigo, y_inimigo):
         if self.vidas == 0:
-            time.sleep(2)
-            print("FIM DE JOGO")
+            print("cabo")
             exit()
+        if round(self.x, 1) == round(x_inimigo, 1) and round(self.y, 1) == round(y_inimigo, 1):
+            return True
+        else:
+            return False
+        
+       
+
+
 
     def move(self , keys, labirinto):
         vel_move = 0.03
@@ -152,8 +160,8 @@ class Inimigo():
             self.dy = vel_move
         if player_y < self.y:
             self.dy = -vel_move
-        #self.dx += random.uniform(-0.01, 0.01)
-        #self.dy += random.uniform(-0.01, 0.01)
+        # self.dx = random.uniform(-0.01, 0.01)
+        # self.dy = random.uniform(-0.01, 0.01)
         
         if not self.colisao(self.x + self.dx, self.y, self.tamanho, labirinto):
             self.x += self.dx
