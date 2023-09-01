@@ -14,7 +14,7 @@ x, y = 1.0, 1.0
 tamanho = 0.4
 
 player = Player(x, y , tamanho)
-inimigos = [Inimigo(5, 5, 0.4), Inimigo(5, 5, 0.4), Inimigo(5, 5, 0.4)]
+inimigos = [Inimigo(5, 5, 0.4), Inimigo(19, 11, 0.4), Inimigo(11, 5, 0.4)]
 
 labirinto = lab.gera_labirinto()
 
@@ -46,7 +46,8 @@ while True:
 
     for inimigo in inimigos:
         inimigo.desenha_player()
-        inimigo.move(labirinto)  
+        inimigo.move(player.x, player.y, labirinto)
+
         player.colide_inimigo(inimigo.x, inimigo.y, inimigo.dx, inimigo.dy) 
     # Desenhe o tempo usando OpenGL
     #desenha_texto(0.5, 0.5, tempo_str)

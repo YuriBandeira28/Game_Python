@@ -137,13 +137,22 @@ class Inimigo():
         return False
 
 
-    def move(self , labirinto):
+    def move(self , player_x, player_y,labirinto):
 
         #pesquisar sistema de movimentação automática
 
         #provisório
-        self.dx += random.uniform(-0.01, 0.01)
-        self.dy += random.uniform(-0.01, 0.01)
+        if player_x > self.x:
+            self.dx = 0.01
+        if player_x < self.x:
+            self.dx = -0.01
+
+        if player_y > self.y:
+            self.dy = 0.01
+        if player_y < self.y:
+            self.dy = -0.01
+        #self.dx += random.uniform(-0.01, 0.01)
+        #self.dy += random.uniform(-0.01, 0.01)
         
         if not self.colisao(self.x + self.dx, self.y, self.tamanho, labirinto):
             self.x += self.dx
