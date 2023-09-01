@@ -5,7 +5,7 @@ Trabalho Realizado na disciplina de computação gráfica como atividade avaliat
 
 ## Clone o projeto:
 ```bash
-`git clone https://github.com/YuriBandeira28/Game_Python.git`
+git clone https://github.com/YuriBandeira28/Game_Python.git
 ```
 
 ## Instale as dependências
