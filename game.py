@@ -1,9 +1,7 @@
-
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 import random
-import pygame
 from pygame.locals import *
 import time
 
@@ -61,7 +59,6 @@ class Labirinto():
                     
 class Player():
 
-   
     dx, dy = 0, 0
     
     def __init__(self, x, y, tamanho, vidas):
@@ -87,8 +84,7 @@ class Player():
                 
 
     def colide_inimigo(self, x_inimigo, y_inimigo):
-        if self.vidas == 0:
-            print("cabo")
+        if self.vidas < 0:
             exit()
         if round(self.x, 1) == round(x_inimigo, 1) and round(self.y, 1) == round(y_inimigo, 1):
             return True
@@ -96,8 +92,6 @@ class Player():
             return False
         
        
-
-
 
     def move(self , keys, labirinto):
         vel_move = 0.03
@@ -118,16 +112,14 @@ class Player():
         if not self.colisao(self.x, self.y + self.dy, self.tamanho, labirinto):
             self.y += self.dy
             
-
 class Inimigo():
 
     dx = 0
     dy = 0
-
-    def __init__(self, x, y, tamanho):
+    tamanho = 0.4
+    def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.tamanho = tamanho
 
     def desenha_player(self):
         glColor3f(1, 0, 0)
@@ -150,7 +142,7 @@ class Inimigo():
 
         #pesquisar sistema de movimentação automática
         vel_move = 0.02
-        #provisório
+        # provisório
         if player_x > self.x:
             self.dx = vel_move
         if player_x < self.x:
@@ -160,6 +152,8 @@ class Inimigo():
             self.dy = vel_move
         if player_y < self.y:
             self.dy = -vel_move
+
+
         # self.dx = random.uniform(-0.01, 0.01)
         # self.dy = random.uniform(-0.01, 0.01)
         
@@ -168,6 +162,45 @@ class Inimigo():
         if not self.colisao(self.x, self.y + self.dy, self.tamanho, labirinto):
             self.y += self.dy
     
+
+class Portal():
+
+    contador_animacao = 25
+    pulsacao = 0.005
+    tamanho = 0.9
+    liberado = True
+    def __init__(self, x , y):
+        self.x = x
+        self.y = y
+
+    def desenha_portal(self):
+        if self.liberado:
+            glColor3f(1.0, 5.0, 0.0)
+        else:
+            glColor3f(0.7, 0.3, 0.1)
+
+        glBegin(GL_QUADS)
+        glVertex2f(self.x, self.y)
+        glVertex2f(self.x + self.tamanho, self.y)
+        glVertex2f(self.x + self.tamanho, self.y + self.tamanho)
+        glVertex2f(self.x, self.y + self.tamanho)
+        glEnd()
+
+    def animacao(self):
+        if self.liberado:
+            self.contador_animacao -=1
+            self.tamanho += self.pulsacao 
+
+            if self.contador_animacao <= 0:
+                self.contador_animacao = 25
+                self.pulsacao *= -1
+
+
+    def colide_player(self, x_player, y_player):
+        if round(self.x, 1) == round(x_player, 1) and round(self.y, 1) == round(y_player, 1):
+            if self.liberado:
+                return True
+            else: return False
 
 
     
