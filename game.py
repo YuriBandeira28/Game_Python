@@ -60,7 +60,6 @@ class Labirinto():
 class Player():
 
     dx, dy = 0, 0
-    
     def __init__(self, x, y, tamanho, vidas):
         self.vidas = vidas
         self.x = x
@@ -175,8 +174,10 @@ class Portal():
     liberado = True
     def __init__(self, labirinto):
 
-        self.x = len(labirinto) - 2
-        self.y = len(labirinto) - 2
+        #self.x = len(labirinto) - 2
+        #self.y = len(labirinto) - 2
+        self.x = 1
+        self.y = 2
 
     def desenha_portal(self):
         if self.liberado:
