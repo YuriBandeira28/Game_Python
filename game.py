@@ -129,12 +129,15 @@ class Inimigo():
         glVertex2f(self.x, self.y + self.tamanho)
         glEnd()
 
-    def colisao(self, x, y, tamanho,labirinto):     
-        for i in range(int(y), int(y + tamanho + 1)):
-            for j in range(int(x), int(x + tamanho + 1)):
-                if labirinto[i][j] == 1:
-                    return True
-        return False
+    def colisao(self, x, y, tamanho,labirinto):
+        try:
+            for i in range(int(y), int(y + tamanho + 1)):
+                for j in range(int(x), int(x + tamanho + 1)):
+                    if labirinto[i][j] == 1:
+                        return True
+            return False
+        except:
+            pass
 
 
     def move(self , player_x, player_y,labirinto):

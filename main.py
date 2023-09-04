@@ -32,16 +32,19 @@ player = Player(x_player, y_player, tamanho_player, vidas_player)
 inimigos = [Inimigo((len(labirinto) -2), (len(labirinto) -2))]
 
 def coloca_inimigo(n):
+
+
     for _ in range(n):
-        x_inimigo = random.randint(6, len(labirinto[0]))
+        x_inimigo = random.randint(0, len(labirinto[0]))
         y_inimigo = random.randint(6, len(labirinto[1]))
-        for i in range(int(y_inimigo), int(y_inimigo + 0.4 + 1)):
-            for j in range(int(x_inimigo), int(x_inimigo + 0.4 + 1)):
-                if labirinto[round(i, 0)][round(j, 0)] == 1:
-                    pass
-                else:
-                    if y_inimigo >=5:
-                        inimigos.append(Inimigo(x_inimigo, y_inimigo))
+        inimigos.append(Inimigo(x_inimigo, y_inimigo))
+
+        
+    for i in inimigos:
+        if not i.colisao(x_inimigo, y_inimigo, 0.4, labirinto):
+            pass
+        else:
+            inimigos.pop()
 
 
 
@@ -103,22 +106,21 @@ def troca_fase():
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
     gluOrtho2D(0, len(labirinto), len(labirinto), 0)
 
-    x_inimigo = random.randint(6, len(labirinto[0]))
+    x_inimigo = random.randint(0, len(labirinto[0]))
     y_inimigo = random.randint(6, len(labirinto[1]))
 
-   
-    for i in range(int(y_inimigo), int(y_inimigo + 0.4 + 1)):
-        for j in range(int(x_inimigo), int(x_inimigo + 0.4 + 1)):
-            if labirinto[i][j] == 1:
-                pass
-            else:
-                inimigos.append(Inimigo(x_inimigo, y_inimigo))
+    inimigos.append(Inimigo(x_inimigo, y_inimigo))
+    
+    for i in inimigos:
+        if not i.colisao(x_inimigo, y_inimigo, 0.4, labirinto):
+            pass
+        else:
+            inimigos.pop()
+
+    
     
 
                     
-   
-    
-
 def reinicia():
     global tempo_inicial
     global player
