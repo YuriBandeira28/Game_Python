@@ -29,26 +29,8 @@ player = Player(x_player, y_player, tamanho_player, vidas_player)
 
 
 
-inimigos = [Inimigo((len(labirinto) -2), (len(labirinto) -2))]
+inimigos = [Inimigo(len(labirinto) -2, len(labirinto) -2)]
 
-def coloca_inimigo(n):
-
-
-    for _ in range(n):
-        x_inimigo = random.randint(0, len(labirinto[0]))
-        y_inimigo = random.randint(6, len(labirinto[1]))
-        inimigos.append(Inimigo(x_inimigo, y_inimigo))
-
-        
-    for i in inimigos:
-        if not i.colisao(x_inimigo, y_inimigo, 0.4, labirinto):
-            pass
-        else:
-            inimigos.pop()
-
-
-
-coloca_inimigo(3)
 display = (600, 600)
 pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 gluOrtho2D(0, len(labirinto), len(labirinto), 0)
@@ -67,7 +49,7 @@ def desenha_texto(temp_str):
     glColor3f(1, 1, 1)  # Cor do texto
     glRasterPos2f(0.5, 0.5)
     for c in temp_str:
-        #glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24  , ord(c))
+        #glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, ord(c))
         pass
     glPopMatrix()
 
@@ -77,7 +59,7 @@ def troca_fase():
     pygame.init()
     pygame.mixer.init()
 
-    
+
     global altura_labirinto
     global largura_labirinto
     global tempo_inicial
@@ -86,9 +68,10 @@ def troca_fase():
     global labirinto
     global inimigos
     global portal
+    
+    lab = None
+    labirinto = None
 
-  
-    tempo_inicial = time.time()
     player = Player(x_player, y_player, tamanho_player, vidas_player)
 
     if largura_labirinto >= tam_maximo_labirinto:
@@ -106,19 +89,32 @@ def troca_fase():
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
     gluOrtho2D(0, len(labirinto), len(labirinto), 0)
 
-    x_inimigo = random.randint(0, len(labirinto[0]))
-    y_inimigo = random.randint(6, len(labirinto[1]))
 
-    inimigos.append(Inimigo(x_inimigo, y_inimigo))
-    
+    # reseta a posição dos inimigos
     for i in inimigos:
-        if not i.colisao(x_inimigo, y_inimigo, 0.4, labirinto):
-            pass
-        else:
-            inimigos.pop()
+        x_inimigo = random.randint(5, len(labirinto) -1)
+        y_inimigo = random.randint(5, len(labirinto) -1)
 
-    
-    
+        if labirinto[x_inimigo][y_inimigo] == 0:
+            
+            print(f"recolocou um inimigo em X = {x_inimigo} e Y = {y_inimigo}")
+            print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
+            inimigos[inimigos.index(i)] = Inimigo(x_inimigo, y_inimigo)
+
+
+
+    # adiciona um inimigo novo
+    while True:
+        x_inimigo = random.randint(5, len(labirinto) -1)
+        y_inimigo = random.randint(5, len(labirinto) -1)
+
+        if labirinto[x_inimigo][y_inimigo] == 0:
+            print(f"colocou um novo inimigo em X = {x_inimigo} e Y = {y_inimigo}")
+            print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
+            inimigos.append(Inimigo(x_inimigo, y_inimigo))
+            break
+
+        else: continue
 
                     
 def reinicia():
@@ -134,7 +130,19 @@ def reinicia():
     tamanho_player = 0.4
     player = Player(x_player, y_player, tamanho_player, vidas_player)
 
-    inimigos = [Inimigo(5, 5), Inimigo(19, 11), Inimigo(11, 5)]
+    tam_inimigos = len(inimigos) + 1
+    inimigos = []
+    for i in range(tam_inimigos):
+        x_inimigo = random.randint(5, len(labirinto) -1)
+        y_inimigo = random.randint(5, len(labirinto) -1)
+
+        if labirinto[x_inimigo][y_inimigo] == 0:
+            
+            print(f"recolocou um inimigo em X = {x_inimigo} e Y = {y_inimigo}")
+            print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
+            inimigos.append(Inimigo(x_inimigo, y_inimigo))
+
+    
 
 while True:
     for event in pygame.event.get():
@@ -147,6 +155,7 @@ while True:
 
     keys = pygame.key.get_pressed()
     
+
     glClearColor(1, 1, 1, 1)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     lab.desenha_labirinto(labirinto)
@@ -162,7 +171,7 @@ while True:
 
     for inimigo in inimigos:
         inimigo.desenha_player()
-        inimigo.move(player.x, player.y, labirinto)
+        #inimigo.move(player.x, player.y, labirinto)
 
         colidiu = player.colide_inimigo(inimigo.x, inimigo.y) 
         if colidiu:

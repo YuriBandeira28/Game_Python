@@ -9,6 +9,10 @@ import random
 # Inicialize o tempo
 tempo_inicial = time.time()
 
+
+glutInit()
+glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
+glutCreateWindow("Exemplo")
 # Matriz 11x11 representando o labirinto
 def gerar_labirinto(largura, altura):
     # Inicializa o labirinto com paredes
@@ -74,7 +78,7 @@ def desenha_texto(x, y, texto):
     glColor3f(1, 1, 1)  # Cor do texto
     glRasterPos2f(x, y)
     for char in texto:
-        #glutBitmapCharacter("Arial", ord(char))
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, ord(char))
         pass
         
 

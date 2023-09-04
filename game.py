@@ -184,9 +184,9 @@ class Portal():
 
     def desenha_portal(self):
         if self.liberado:
-            glColor3f(1.0, 5.0, 0.0)
+            glColor3f(0.0, 1, 0.0)
         else:
-            glColor3f(0.7, 0.3, 0.1)
+            glColor3f(0.7, 0.7, 0.1)
 
         glBegin(GL_QUADS)
         glVertex2f(self.x, self.y)
