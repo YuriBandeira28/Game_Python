@@ -15,7 +15,7 @@ tempo_inicial = time.time()
 pygame.init()
 pygame.mixer.init()
 
-altura_labirinto, largura_labirinto = 31, 31
+altura_labirinto, largura_labirinto = 21, 21
 lab = Labirinto(altura=altura_labirinto,largura=largura_labirinto)
 labirinto = lab.gera_labirinto()
 
@@ -23,6 +23,7 @@ vidas_player = 3
 x_player, y_player = 1.0, 1.0
 tamanho_player = 0.4
 player = Player(x_player, y_player, tamanho_player, vidas_player)
+
 
 inimigos = [Inimigo(5, 5), Inimigo(19, 11), Inimigo(11, 5)]
 
@@ -32,7 +33,7 @@ pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 gluOrtho2D(0, len(labirinto), len(labirinto), 0)
 
 
-portal = Portal(5, 5)
+portal = Portal(labirinto)
 def calcula_tempo(temp_ini):
     tempo_atual = time.time() - temp_ini
     minutos = int(tempo_atual // 60)
@@ -57,24 +58,27 @@ def troca_fase():
     global labirinto
     global inimigos
     global portal
-    
+
+    tempo_inicial = time.time()
+    player = Player(x_player, y_player, tamanho_player, vidas_player)
+
+
     altura_labirinto +=2
     largura_labirinto +=2
 
     x_inimigo = random.randint(6, len(labirinto[0]))
     y_inimigo = random.randint(6, len(labirinto[1]))
 
-    for i in range(labirinto):
-        for j in range(labirinto[1]):
-            if labirinto[i][j] == 0:
-                inimigos.append(Inimigo(x_inimigo, y_inimigo))
-
     lab = Labirinto(altura=altura_labirinto,largura=largura_labirinto)
     labirinto = lab.gera_labirinto()
+    for i in range(len(labirinto[0])):
+        for j in range(len(labirinto[1])):
+            if labirinto[i][j] == 0:
+                if i > 5:
+                    inimigos.append(Inimigo(i, j))
+                    break
 
-
-
-
+    
 
 def reinicia():
     global tempo_inicial
@@ -108,12 +112,12 @@ while True:
     player.desenha_player()
     player.move(keys, labirinto) 
     player.dx, player.dy = 0, 0
-    # portal.desenha_portal()
-    # portal.animacao()
-    # colidiu_portal = portal.colide_player(player.x, player.y)
+    portal.desenha_portal()
+    portal.animacao()
+    colidiu_portal = portal.colide_player(player.x, player.y)
 
-    # if colidiu_portal:
-    #     troca_fase()
+    if colidiu_portal:
+        troca_fase()
 
     for inimigo in inimigos:
         inimigo.desenha_player()
@@ -121,8 +125,8 @@ while True:
 
         colidiu = player.colide_inimigo(inimigo.x, inimigo.y) 
         if colidiu:
-            pygame.mixer.music.load("teste.mp3")
-            pygame.mixer.music.play()
+            # pygame.mixer.music.load("teste.mp3")
+            # pygame.mixer.music.play()
             vidas_player -=1
             reinicia()
 

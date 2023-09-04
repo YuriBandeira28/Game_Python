@@ -86,13 +86,11 @@ class Player():
     def colide_inimigo(self, x_inimigo, y_inimigo):
         if self.vidas < 0:
             exit()
-        if round(self.x, 1) == round(x_inimigo, 1) and round(self.y, 1) == round(y_inimigo, 1):
+        if round(self.x, 0) == round(x_inimigo, 0) and round(self.y, 0) == round(y_inimigo, 0):
             return True
         else:
             return False
         
-       
-
     def move(self , keys, labirinto):
         vel_move = 0.03
         if keys[K_LEFT]:
@@ -114,10 +112,12 @@ class Player():
             
 class Inimigo():
 
-    dx = 0
-    dy = 0
+    vel_move = 0.02
     tamanho = 0.4
+    dx = random.uniform(-0.02, 0.02)
+    dy = random.uniform(-0.02, 0.02)
     def __init__(self, x, y):
+        self.padrao_move = random.randint(1,4)
         self.x = x
         self.y = y
 
@@ -141,21 +141,25 @@ class Inimigo():
     def move(self , player_x, player_y,labirinto):
 
         #pesquisar sistema de movimentação automática
-        vel_move = 0.02
-        # provisório
-        if player_x > self.x:
-            self.dx = vel_move
-        if player_x < self.x:
-            self.dx = -vel_move
+        if self.padrao_move == 1:
+           
+            # persegue o player
+            if player_x > self.x:
+                self.dx = self.vel_move
+            if player_x < self.x:
+                self.dx = -self.vel_move
 
-        if player_y > self.y:
-            self.dy = vel_move
-        if player_y < self.y:
-            self.dy = -vel_move
+            if player_y > self.y:
+                self.dy = self.vel_move
+            if player_y < self.y:
+                self.dy = -self.vel_move
+        else:
+            # Colide e troca a direção
+            if self.colisao(self.x + self.dx, self.y, self.tamanho, labirinto):
+                self.dx *= -1
 
-
-        # self.dx = random.uniform(-0.01, 0.01)
-        # self.dy = random.uniform(-0.01, 0.01)
+            if self.colisao(self.x, self.y + self.dy, self.tamanho, labirinto):
+                self.dy *= -1
         
         if not self.colisao(self.x + self.dx, self.y, self.tamanho, labirinto):
             self.x += self.dx
@@ -169,9 +173,10 @@ class Portal():
     pulsacao = 0.005
     tamanho = 0.9
     liberado = True
-    def __init__(self, x , y):
-        self.x = x
-        self.y = y
+    def __init__(self, labirinto):
+
+        self.x = len(labirinto) - 2
+        self.y = len(labirinto) - 2
 
     def desenha_portal(self):
         if self.liberado:
@@ -197,7 +202,7 @@ class Portal():
 
 
     def colide_player(self, x_player, y_player):
-        if round(self.x, 1) == round(x_player, 1) and round(self.y, 1) == round(y_player, 1):
+        if round(self.x, 0) == round(x_player, 0) and round(self.y, 0) == round(y_player, 0):
             if self.liberado:
                 return True
             else: return False
