@@ -3,13 +3,9 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 import pygame
-import time
 import pygame
 from pygame.locals import *
 import random
-
-
-tempo_inicial = time.time()
 
 
 pygame.init()
@@ -38,21 +34,6 @@ gluOrtho2D(0, len(labirinto), len(labirinto), 0)
 
 portal = Portal(labirinto)
 chave = Chave(labirinto)
-def calcula_tempo(temp_ini):
-    tempo_atual = time.time() - temp_ini
-    minutos = int(tempo_atual // 60)
-    segundos = int(tempo_atual % 60)
-    tempo_str = f"Tempo: {minutos}m {segundos}s"
-
-    return tempo_str
-
-def desenha_texto(temp_str):
-    glColor3f(1, 1, 1)  # Cor do texto
-    glRasterPos2f(0.5, 0.5)
-    for c in temp_str:
-        #glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, ord(c))
-        pass
-    glPopMatrix()
 
 
 def posicao_valida(x, y, labirinto):
@@ -144,7 +125,6 @@ def reinicia():
     global chave
     global portal
 
-    tempo_inicial = time.time()
     x_player, y_player = 1.0, 1.0
     tamanho_player = 0.4
     player = Player(x_player, y_player, tamanho_player, vidas_player)
@@ -172,7 +152,6 @@ while True:
             quit()
 
 
-    temp_str = calcula_tempo(tempo_inicial)
 
     keys = pygame.key.get_pressed()
     

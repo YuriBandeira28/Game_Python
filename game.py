@@ -3,9 +3,6 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 import random
 from pygame.locals import *
-import time
-
-
 
 
 class Labirinto():
