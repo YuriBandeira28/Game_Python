@@ -52,10 +52,8 @@ def troca_fase():
     pygame.init()
     pygame.mixer.init()
 
-
     global altura_labirinto
     global largura_labirinto
-    global tempo_inicial
     global player
     global lab
     global labirinto
@@ -63,7 +61,8 @@ def troca_fase():
     global portal
     global chave
 
-    
+
+    tam_inimigos = len(inimigos) 
 
     lab = None
     labirinto = None
@@ -86,22 +85,20 @@ def troca_fase():
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
     gluOrtho2D(0, len(labirinto), len(labirinto), 0)
 
-    tam_inimigos = len(inimigos) + 1
     inimigos = []
 
-    while len(inimigos) <= tam_inimigos -1:
+    while len(inimigos) != tam_inimigos:
 
         # reseta a posição dos inimigos
-        for i in inimigos:
-            x_inimigo = random.randint(5, len(labirinto) -1)
-            y_inimigo = random.randint(5, len(labirinto) -1)
+        #for _ in inimigos:
+        x_inimigo = random.randint(5, len(labirinto) -1)
+        y_inimigo = random.randint(5, len(labirinto) -1)
 
-            if posicao_valida(x_inimigo, y_inimigo, labirinto):
-                inimigos.append(Inimigo(x_inimigo, y_inimigo))
-
-
+        if posicao_valida(x_inimigo, y_inimigo, labirinto):
+            inimigos.append(Inimigo(x_inimigo, y_inimigo))
 
     # adiciona um inimigo novo
+
     while True:
         x_inimigo = random.randint(5, len(labirinto) -1)
         y_inimigo = random.randint(5, len(labirinto) -1)
@@ -112,11 +109,8 @@ def troca_fase():
             inimigos.append(Inimigo(x_inimigo, y_inimigo))
             break
 
-        else: continue
-
                     
 def reinicia():
-    global tempo_inicial
     global player
     global inimigos
     global x_player
@@ -133,16 +127,16 @@ def reinicia():
     tam_inimigos = len(inimigos) + 1
     inimigos = []
 
-    while len(inimigos) <= tam_inimigos -1:
-        for i in range(tam_inimigos):
-            x_inimigo = random.randint(5, len(labirinto) -1)
-            y_inimigo = random.randint(5, len(labirinto) -1)
+    while len(inimigos) != tam_inimigos -1:
+       
+        x_inimigo = random.randint(5, len(labirinto) -1)
+        y_inimigo = random.randint(5, len(labirinto) -1)
 
-            if posicao_valida(x_inimigo, y_inimigo, labirinto):
+        if posicao_valida(x_inimigo, y_inimigo, labirinto):
 
-                # print(f"recolocou um inimigo em X = {x_inimigo} e Y = {y_inimigo}")
-                # print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
-                inimigos.append(Inimigo(x_inimigo, y_inimigo))
+            # print(f"recolocou um inimigo em X = {x_inimigo} e Y = {y_inimigo}")
+            # print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
+            inimigos.append(Inimigo(x_inimigo, y_inimigo))
 
 
 while True:
