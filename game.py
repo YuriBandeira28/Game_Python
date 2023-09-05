@@ -66,6 +66,21 @@ class Player():
         self.y = y
         self.tamanho = tamanho
 
+    def desenha_vidas(self):
+        tamanho = 0.2
+        y = 0.2
+        x = 0.2
+        for _ in range(self.vidas):
+            glColor3f(1, 0, 0)
+            glBegin(GL_QUADS)
+            glVertex2f(x, y)
+            glVertex2f(x + tamanho, y)
+            glVertex2f(x + tamanho, y + tamanho)
+            glVertex2f(x, y + tamanho)
+            glEnd()
+
+            x += 0.5
+
     def desenha_player(self):
         glColor3f(0, 0, 0)
         glBegin(GL_QUADS)
@@ -83,7 +98,7 @@ class Player():
                 
 
     def colide_inimigo(self, x_inimigo, y_inimigo):
-        if self.vidas < 0:
+        if self.vidas <= 0:
             exit()
         if round(self.x, 0) == round(x_inimigo, 0) and round(self.y, 0) == round(y_inimigo, 0):
             return True

@@ -105,14 +105,18 @@ def troca_fase():
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
     gluOrtho2D(0, len(labirinto), len(labirinto), 0)
 
+    tam_inimigos = len(inimigos) + 1
+    inimigos = []
 
-    # reseta a posição dos inimigos
-    for i in inimigos:
-        x_inimigo = random.randint(5, len(labirinto) -1)
-        y_inimigo = random.randint(5, len(labirinto) -1)
+    while len(inimigos) <= tam_inimigos -1:
 
-        if posicao_valida(x_inimigo, y_inimigo, labirinto):
-            inimigos[inimigos.index(i)] = Inimigo(x_inimigo, y_inimigo)
+        # reseta a posição dos inimigos
+        for i in inimigos:
+            x_inimigo = random.randint(5, len(labirinto) -1)
+            y_inimigo = random.randint(5, len(labirinto) -1)
+
+            if posicao_valida(x_inimigo, y_inimigo, labirinto):
+                inimigos.append(Inimigo(x_inimigo, y_inimigo))
 
 
 
@@ -148,15 +152,17 @@ def reinicia():
     portal = Portal(labirinto)
     tam_inimigos = len(inimigos) + 1
     inimigos = []
-    for i in range(tam_inimigos):
-        x_inimigo = random.randint(5, len(labirinto) -1)
-        y_inimigo = random.randint(5, len(labirinto) -1)
 
-        if posicao_valida(x_inimigo, y_inimigo, labirinto):
+    while len(inimigos) <= tam_inimigos -1:
+        for i in range(tam_inimigos):
+            x_inimigo = random.randint(5, len(labirinto) -1)
+            y_inimigo = random.randint(5, len(labirinto) -1)
 
-            # print(f"recolocou um inimigo em X = {x_inimigo} e Y = {y_inimigo}")
-            # print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
-            inimigos.append(Inimigo(x_inimigo, y_inimigo))
+            if posicao_valida(x_inimigo, y_inimigo, labirinto):
+
+                # print(f"recolocou um inimigo em X = {x_inimigo} e Y = {y_inimigo}")
+                # print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
+                inimigos.append(Inimigo(x_inimigo, y_inimigo))
 
 
 while True:
@@ -175,6 +181,7 @@ while True:
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     lab.desenha_labirinto(labirinto)
     player.desenha_player()
+    player.desenha_vidas()
     player.move(keys, labirinto) 
     player.dx, player.dy = 0, 0
     portal.desenha_portal()
