@@ -37,12 +37,12 @@ chave = Chave(labirinto)
 
 
 def posicao_valida(x, y, labirinto):
-    # Verifique se as coordenadas (x, y) estão dentro dos limites do labirinto
-    if 0 <= x < len(labirinto) and 0 <= y < len(labirinto[0]):
-        # Verifique se a célula do labirinto na posição (x, y) não é uma parede (valor 0)
-        if labirinto[int(x)][int(y)] == 0:
-            return True  # A posição é válida (não é uma parede)
-    return False 
+    for i in range(int(y), int(y + 0.4 + 1)):
+        for j in range(int(x), int(x + 0.4 + 1)):
+            if labirinto[i][j] == 0:
+                return True
+    return False
+
 
 
 
