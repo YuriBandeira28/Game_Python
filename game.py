@@ -130,20 +130,16 @@ class Inimigo():
         glEnd()
 
     def colisao(self, x, y, tamanho,labirinto):
-        try:
             for i in range(int(y), int(y + tamanho + 1)):
                 for j in range(int(x), int(x + tamanho + 1)):
                     if labirinto[i][j] == 1:
                         return True
             return False
-        except:
-            pass
-
 
     def move(self , player_x, player_y,labirinto):
 
         #pesquisar sistema de movimentação automática
-        if self.padrao_move == 1:
+        if self.padrao_move == 8:
            
             # persegue o player
             if player_x > self.x:
@@ -174,13 +170,13 @@ class Portal():
     contador_animacao = 25
     pulsacao = 0.005
     tamanho = 0.9
-    liberado = True
+    liberado = False
     def __init__(self, labirinto):
 
-        #self.x = len(labirinto) - 2
-        #self.y = len(labirinto) - 2
-        self.x = 1
-        self.y = 2
+        self.x = len(labirinto) - 2
+        self.y = len(labirinto) - 2
+        #self.x = 1
+        #self.y = 2
 
     def desenha_portal(self):
         if self.liberado:
@@ -210,6 +206,37 @@ class Portal():
             if self.liberado:
                 return True
             else: return False
+
+class Chave():
+
+
+    tamanho = 0.2
+    def __init__(self, labirinto):
+        self.x = 1.5
+        self.y = len(labirinto) - 1.5
+
+
+    def desenha_chave(self):
+
+        glColor3f(0.8, 0.6, 0.2)
+
+        glBegin(GL_QUADS)
+        glVertex2f(self.x, self.y)
+        glVertex2f(self.x + self.tamanho, self.y)
+        glVertex2f(self.x + self.tamanho, self.y + self.tamanho)
+        glVertex2f(self.x, self.y + self.tamanho)
+        glEnd()
+
+
+    def colide_player(self, x_player, y_player):
+        
+
+        if round(self.x, 0) == round(x_player, 0) and round(self.y, 0) == round(y_player, 0):
+            return True
+        else:
+            return False
+        
+
 
 
     

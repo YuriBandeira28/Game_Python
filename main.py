@@ -37,6 +37,7 @@ gluOrtho2D(0, len(labirinto), len(labirinto), 0)
 
 
 portal = Portal(labirinto)
+chave = Chave(labirinto)
 def calcula_tempo(temp_ini):
     tempo_atual = time.time() - temp_ini
     minutos = int(tempo_atual // 60)
@@ -53,6 +54,17 @@ def desenha_texto(temp_str):
         pass
     glPopMatrix()
 
+
+def posicao_valida(x, y, labirinto):
+    # Verifique se as coordenadas (x, y) estão dentro dos limites do labirinto
+    if 0 <= x < len(labirinto) and 0 <= y < len(labirinto[0]):
+        # Verifique se a célula do labirinto na posição (x, y) não é uma parede (valor 0)
+        if labirinto[int(x)][int(y)] == 0:
+            return True  # A posição é válida (não é uma parede)
+    return False 
+
+
+
 def troca_fase():
     pygame.quit()
 
@@ -68,7 +80,10 @@ def troca_fase():
     global labirinto
     global inimigos
     global portal
+    global chave
+
     
+
     lab = None
     labirinto = None
 
@@ -85,6 +100,7 @@ def troca_fase():
     lab = Labirinto(altura=altura_labirinto,largura=largura_labirinto)
     labirinto = lab.gera_labirinto()
     portal = Portal(labirinto)
+    chave = Chave(labirinto)
 
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
     gluOrtho2D(0, len(labirinto), len(labirinto), 0)
@@ -95,10 +111,7 @@ def troca_fase():
         x_inimigo = random.randint(5, len(labirinto) -1)
         y_inimigo = random.randint(5, len(labirinto) -1)
 
-        if labirinto[x_inimigo][y_inimigo] == 0:
-            
-            print(f"recolocou um inimigo em X = {x_inimigo} e Y = {y_inimigo}")
-            print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
+        if posicao_valida(x_inimigo, y_inimigo, labirinto):
             inimigos[inimigos.index(i)] = Inimigo(x_inimigo, y_inimigo)
 
 
@@ -108,9 +121,9 @@ def troca_fase():
         x_inimigo = random.randint(5, len(labirinto) -1)
         y_inimigo = random.randint(5, len(labirinto) -1)
 
-        if labirinto[x_inimigo][y_inimigo] == 0:
-            print(f"colocou um novo inimigo em X = {x_inimigo} e Y = {y_inimigo}")
-            print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
+        if posicao_valida(x_inimigo, y_inimigo, labirinto):
+            # print(f"colocou um novo inimigo em X = {x_inimigo} e Y = {y_inimigo}")
+            # print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
             inimigos.append(Inimigo(x_inimigo, y_inimigo))
             break
 
@@ -124,25 +137,27 @@ def reinicia():
     global x_player
     global y_player
     global tamanho_player
+    global chave
+    global portal
 
     tempo_inicial = time.time()
     x_player, y_player = 1.0, 1.0
     tamanho_player = 0.4
     player = Player(x_player, y_player, tamanho_player, vidas_player)
-
+    chave = Chave(labirinto)
+    portal = Portal(labirinto)
     tam_inimigos = len(inimigos) + 1
     inimigos = []
     for i in range(tam_inimigos):
         x_inimigo = random.randint(5, len(labirinto) -1)
         y_inimigo = random.randint(5, len(labirinto) -1)
 
-        if labirinto[x_inimigo][y_inimigo] == 0:
-            
-            print(f"recolocou um inimigo em X = {x_inimigo} e Y = {y_inimigo}")
-            print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
+        if posicao_valida(x_inimigo, y_inimigo, labirinto):
+
+            # print(f"recolocou um inimigo em X = {x_inimigo} e Y = {y_inimigo}")
+            # print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
             inimigos.append(Inimigo(x_inimigo, y_inimigo))
 
-    
 
 while True:
     for event in pygame.event.get():
@@ -164,17 +179,25 @@ while True:
     player.dx, player.dy = 0, 0
     portal.desenha_portal()
     portal.animacao()
-    colidiu_portal = portal.colide_player(player.x, player.y)
+    chave.desenha_chave()
 
+    colidiu_chave  = chave.colide_player(player.x, player.y)
+    if colidiu_chave:
+        portal.liberado = True
+        chave.x = -1
+        chave.y = -1
+
+    colidiu_portal = portal.colide_player(player.x, player.y)
     if colidiu_portal:
         troca_fase()
 
+
     for inimigo in inimigos:
         inimigo.desenha_player()
-        #inimigo.move(player.x, player.y, labirinto)
+        inimigo.move(player.x, player.y, labirinto)
 
-        colidiu = player.colide_inimigo(inimigo.x, inimigo.y) 
-        if colidiu:
+        colidiu_inimigo = player.colide_inimigo(inimigo.x, inimigo.y) 
+        if colidiu_inimigo:
             # pygame.mixer.music.load("teste.mp3")
             # pygame.mixer.music.play()
             vidas_player -=1
