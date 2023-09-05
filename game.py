@@ -56,6 +56,8 @@ class Labirinto():
                     
 class Player():
 
+
+    vel_move = 0.03
     dx, dy = 0, 0
     def __init__(self, x, y, tamanho, vidas):
         self.vidas = vidas
@@ -103,18 +105,18 @@ class Player():
             return False
         
     def move(self , keys, labirinto):
-        vel_move = 0.03
+        
         if keys[K_LEFT]:
-            self.dx = -vel_move
+            self.dx = -self.vel_move
 
         if keys[K_RIGHT]:
-            self.dx = vel_move
+            self.dx = self.vel_move
             
         if keys[K_UP]:
-            self.dy = -vel_move
+            self.dy = -self.vel_move
             
         if keys[K_DOWN]:
-            self.dy = vel_move
+            self.dy = self.vel_move
 
         if not self.colisao(self.x + self.dx, self.y, self.tamanho, labirinto):
             self.x += self.dx
@@ -125,8 +127,8 @@ class Inimigo():
 
     vel_move = 0.02
     tamanho = 0.4
-    dx = random.uniform(-0.02, 0.02)
-    dy = random.uniform(-0.02, 0.02)
+    dx = random.uniform(-vel_move, vel_move)
+    dy = random.uniform(-vel_move, vel_move)
     def __init__(self, x, y):
         self.padrao_move = random.randint(1,4)
         self.x = x

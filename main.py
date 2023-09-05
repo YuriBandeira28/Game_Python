@@ -68,7 +68,7 @@ def troca_fase():
     labirinto = None
 
     player = Player(x_player, y_player, tamanho_player, vidas_player)
-
+    player.vel_move += 0.005
     if largura_labirinto >= tam_maximo_labirinto:
         print("tam maximo de labirinto atingido")
         altura_labirinto = tam_maximo_labirinto
@@ -108,6 +108,9 @@ def troca_fase():
             # print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
             inimigos.append(Inimigo(x_inimigo, y_inimigo))
             break
+
+    for inimigo in inimigos:
+        inimigo.vel_move += 0.005
 
                     
 def reinicia():
