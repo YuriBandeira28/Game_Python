@@ -97,8 +97,6 @@ class Player():
                 
 
     def colide_inimigo(self, x_inimigo, y_inimigo):
-        if self.vidas <= 0:
-            exit()
         if round(self.x, 0) == round(x_inimigo, 0) and round(self.y, 0) == round(y_inimigo, 0):
             return True
         else:
@@ -153,8 +151,8 @@ class Inimigo():
     def move(self , player_x, player_y,labirinto):
 
         #pesquisar sistema de movimentação automática
-        if self.padrao_move == 8:
-           
+        if self.padrao_move == 1:
+            self.vel_move = 0.005
             # persegue o player
             if player_x > self.x:
                 self.dx = self.vel_move
@@ -184,7 +182,7 @@ class Portal():
     contador_animacao = 25
     pulsacao = 0.005
     tamanho = 0.9
-    liberado = True
+    liberado = False
     def __init__(self, labirinto):
 
         self.x = len(labirinto) - 2

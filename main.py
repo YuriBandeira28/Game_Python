@@ -6,6 +6,7 @@ import pygame
 import pygame
 from pygame.locals import *
 import random
+from mostra_fim import show_gif
 
 
 pygame.init()
@@ -28,7 +29,9 @@ player = Player(x_player, y_player, tamanho_player, vidas_player)
 inimigos = [Inimigo(len(labirinto) -2, len(labirinto) -2)]
 
 display = (600, 600)
-pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+tela = pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+
+
 gluOrtho2D(0, len(labirinto), len(labirinto), 0)
 
 
@@ -181,10 +184,16 @@ while True:
 
         colidiu_inimigo = player.colide_inimigo(inimigo.x, inimigo.y) 
         if colidiu_inimigo:
-            # pygame.mixer.music.load("teste.mp3")
-            # pygame.mixer.music.play()
+            pygame.mixer.music.load("teste.mp3")
+            pygame.mixer.music.play()
             vidas_player -=1
             reinicia()
+
+            if vidas_player <= 0:
+                pygame.mixer.music.load("teste.mp3")
+                pygame.mixer.music.play()
+                pygame.quit()
+                show_gif()
 
 
     
