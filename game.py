@@ -184,7 +184,7 @@ class Portal():
     contador_animacao = 25
     pulsacao = 0.005
     tamanho = 0.9
-    liberado = True
+    liberado = False
     def __init__(self, labirinto):
 
         self.x = len(labirinto) - 2
