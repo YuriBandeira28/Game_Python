@@ -7,6 +7,8 @@ import pygame
 from pygame.locals import *
 import random
 from mostra_fim import show_gif
+from os import listdir
+from os.path import isfile, join
 import time
 
 
@@ -145,6 +147,17 @@ def reinicia():
             # print(f"no labirinto temos essa posição como {labirinto[x_inimigo][y_inimigo]}")
             inimigos.append(Inimigo(x_inimigo, y_inimigo))
 
+path = 'sounds'
+sons = [f for f in listdir(path) if isfile(join(path, f))]
+
+
+def play_musica():
+    msc = random.choice(sons)
+    pygame.mixer.music.load(f"{path}/{msc}")
+    pygame.mixer.music.play()
+
+
+
 
 while True:
     for event in pygame.event.get():
@@ -170,12 +183,14 @@ while True:
 
     colidiu_chave  = chave.colide_player(player.x, player.y)
     if colidiu_chave:
+        play_musica()
         portal.liberado = True
         chave.x = -1
         chave.y = -1
 
     colidiu_portal = portal.colide_player(player.x, player.y)
     if colidiu_portal:
+        play_musica()
         troca_fase()
 
 
@@ -185,8 +200,7 @@ while True:
 
         colidiu_inimigo = player.colide_inimigo(inimigo.x, inimigo.y) 
         if colidiu_inimigo:
-            pygame.mixer.music.load("teste.mp3")
-            pygame.mixer.music.play()
+            play_musica()
             vidas_player -=1
             reinicia()
 
