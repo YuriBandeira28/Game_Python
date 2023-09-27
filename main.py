@@ -205,8 +205,7 @@ while True:
             reinicia()
 
             if vidas_player <= 0:
-                pygame.mixer.music.load("teste.mp3")
-                pygame.mixer.music.play()
+                play_musica()
                 time.sleep(1)
                 pygame.quit()
                 show_gif()
