@@ -7,6 +7,7 @@ import pygame
 from pygame.locals import *
 import random
 from mostra_fim import show_gif
+import time
 
 
 pygame.init()
@@ -192,6 +193,7 @@ while True:
             if vidas_player <= 0:
                 pygame.mixer.music.load("teste.mp3")
                 pygame.mixer.music.play()
+                time.sleep(1)
                 pygame.quit()
                 show_gif()
 
